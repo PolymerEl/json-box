@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-validatable-behavior/iron-validatable-behavior.html">
 <link rel="import" href="../paper-input/paper-textarea.html">
+<link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <!-- <link rel="import" href="my-icons.html"> -->
@@ -32,7 +33,12 @@ For displaying an object and disabling editing:
         <paper-icon-button icon="code" title="Format" on-tap="format"></paper-icon-button>
       </div>
     </template>
-    <paper-textarea label="[[label]]" value="{{value}}" error-message="Invalid JSON!" readonly="[[disabled]]" invalid="[[error]]" max-rows="[[maxRows]]"></paper-textarea>
+    <template is="dom-if" if="[[useTextarea]]">
+      <paper-textarea label="[[label]]" placehoder="[[placeholder]]" value="{{value}}" error-message="Invalid JSON!" readonly="[[disabled]]" invalid="[[error]]" max-rows="[[maxRows]]"></paper-textarea>
+    </template>
+    <template is="dom-if" if="[[!useTextarea]]">
+      <paper-input label="[[label]]" placehoder="[[placeholder]]" value="{{value}}" error-message="Invalid JSON!" readonly="[[disabled]]" invalid="[[error]]" max-rows="[[maxRows]]"></paper-input>
+    </template>
   </template>
   <script>
   Polymer({
@@ -48,6 +54,16 @@ For displaying an object and disabling editing:
        * `label` is the textarea label that will appear
        */
       label: String,
+
+      placeholder: String,
+
+      /* 
+       * `useTextarea`  set true to use textarea instead of paper-input
+       */
+      useTextarea: {
+        type: Boolean, 
+        value: false
+      },
 
       /*
        * `start` is the starting object displayed
